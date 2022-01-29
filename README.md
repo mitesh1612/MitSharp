@@ -69,4 +69,33 @@ var mockedSomeService = new Mock<ISomeService>();
 SomeServiceSingleton.SetInstance(mockedSomeService.Object);
 
 // Now the tests for code consuming the SomeServiceSingleton can work without any changes.
+var someService = SomeServiceSingleton.Instance; // Returns the mocked object
+```
+
+### GenericLazySingleton
+
+Same as `GenericSingleton`, but used `Lazy<T>` for lazy initialization. Also instead of `SetInstance`, it provides a `SetInstanceFactory` which can be used to replace the instance being used in the singleton.
+
+Example:
+
+```cs
+public SomeServiceSingleton : GenericLazySingleton<ISomeService, SomeService>
+{
+}
+```
+
+and use it like:
+
+```cs
+var someService = SomeServiceSingleton.Instance;
+```
+
+For **Testing**, you can use the `SetInstanceFactory` method which can be used to replace the instance with a mocked instance, like:
+
+```cs
+// In TestSetup
+SomeServiceSingleton.SetInstanceFactory(() => new Mock<ISomeService>);
+
+// Now the tests for code consuming the SomeServiceSingleton can work without any changes.
+var someService = SomeServiceSingleton.Instance; // Returns the mocked object
 ```
