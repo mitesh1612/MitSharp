@@ -99,3 +99,24 @@ SomeServiceSingleton.SetInstanceFactory(() => new Mock<ISomeService>);
 // Now the tests for code consuming the SomeServiceSingleton can work without any changes.
 var someService = SomeServiceSingleton.Instance; // Returns the mocked object
 ```
+
+### StronglyTypedId
+
+A abstract helper class to create strongly typed ids from primitive types to deal with the problems of Primitive Obsession. Read [this blog post](https://andrewlock.net/using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-1/) for more details and benefits of this approach.
+
+Usage:
+
+Say you want to create a strongly typed id from a `Guid`, you can do the following:
+
+```cs
+public UserId : StronglyTypedId<Guid>
+{
+    public UserId(Guid value) : base(value) // this is required
+    { }
+    
+    // Optionally can add new and empty static methods for faster id generation
+    public static UserId New() => new UserId(Guid.NewGuid());
+
+    public static UserId Empty() => new UserId(Guid.EmptyGuid());
+}
+```
