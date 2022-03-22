@@ -120,3 +120,11 @@ public UserId : StronglyTypedId<Guid>
     public static UserId Empty() => new UserId(Guid.EmptyGuid());
 }
 ```
+
+### Maybe
+
+TODO
+
+### Option
+
+TODO
